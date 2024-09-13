@@ -1,19 +1,61 @@
 package main
 
-import rl "github.com/gen2brain/raylib-go/raylib"
+import (
+	rl "github.com/gen2brain/raylib-go/raylib"
+)
+
+var game *GameState
+
+type GameState struct {
+	GameWidth  int32
+	GameHeight int32
+	GameOver   bool
+	PlayerSize int
+}
+
+func newGame() {
+	// Inicializar la variable global
+	game = new(GameState)
+	game.GameOver = false
+	game.GameWidth = 800
+	game.GameHeight = 450
+	game.PlayerSize = 40
+}
 
 func main() {
-	rl.InitWindow(800, 450, "raylib [core] example - basic window")
-	defer rl.CloseWindow()
 
+	newGame()
+	rl.InitWindow(game.GameWidth, game.GameHeight, "classic game: snake")
 	rl.SetTargetFPS(60)
 
-	for !rl.WindowShouldClose() {
-		rl.BeginDrawing()
+	if !game.GameOver {
 
-		rl.ClearBackground(rl.RayWhite)
-		rl.DrawText("Congrats! You created your first window!", 190, 200, 20, rl.LightGray)
+		for !rl.WindowShouldClose() {
 
-		rl.EndDrawing()
+			rl.BeginDrawing()
+
+			rl.ClearBackground(rl.RayWhite)
+			drawTable()
+
+			rl.EndDrawing()
+		}
+		//we init the map
+
 	}
+
+	defer rl.CloseWindow()
+
+}
+
+// funcion that prints the map
+func drawTable() {
+
+	for i := 0; i < int(game.GameWidth)/game.PlayerSize; i++ {
+		rl.DrawLineV(rl.Vector2{float32(i) * float32(game.PlayerSize), 0}, rl.Vector2{float32(i) * float32(game.PlayerSize), float32(game.GameHeight)}, rl.Black)
+	}
+
+	for i := 0; i < int(game.GameHeight)/game.PlayerSize; i++ {
+		rl.DrawLineV(rl.Vector2{0, float32(i) * float32(game.PlayerSize)}, rl.Vector2{float32(game.GameWidth), float32(i) * float32(game.PlayerSize)}, rl.Black)
+	}
+
 }
