@@ -40,9 +40,9 @@ var playerCount = 0
 
 func newPlayer() {
 	player = new(Player)
-	player.SnakePlayer.Length = 1
+	player.SnakePlayer.Length = 3
 	player.ID = playerCount + 1
-	player.Direction = 1
+	player.Direction = 3
 }
 
 func main() {
@@ -57,16 +57,16 @@ func main() {
 		for !rl.WindowShouldClose() {
 
 			if rl.IsKeyDown(rl.KeyA) {
-				player.Direction += -1
+				player.Direction += 1
 			} //left
 			if rl.IsKeyDown(rl.KeyD) {
-				player.Direction += 1
+				player.Direction += 2
 			} //right
 			if rl.IsKeyDown(rl.KeyW) {
-				player.Direction += 2
+				player.Direction += 3
 			} //up
 			if rl.IsKeyDown(rl.KeyS) {
-				player.Direction += -2
+				player.Direction += 4
 			} //down
 
 			drawSnake()
@@ -97,8 +97,15 @@ func drawTable() {
 }
 
 func drawSnake() {
-
 	for i := 0; i < player.SnakePlayer.Length; i++ {
-
+		player.SnakePlayer.Position[i] = player.SnakePlayer.Position[i+1]
+		if i == player.SnakePlayer.Length-1 {
+			switch player.Direction {
+			case 1:
+			case 2:
+			default:
+				fmt.println("error")
+			}
+		}
 	}
 }
